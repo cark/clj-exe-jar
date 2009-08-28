@@ -1,0 +1,37 @@
+clj-exe-jar
+
+A sample executable jar build process for clojure
+
+Dependencies : clojure.jar, clojure-contrib.jar, ant
+
+Rationale:
+
+Many clojure newcomers ask how to properly package their work for easy distribution.
+It is my hope this will be a good starting point.
+
+Included functionalities :
+
+The sample project will produce an executable jar, as well as a zip file containing
+both the executable jar and the supporting libraries. The run-clojure.bat script is
+a good way to start clojure with a simple class-path. To add more libraries, just 
+throw these in the lib directory.
+
+How to:
+
+- a Test run : 
+Run ant from the root directory of this project. No parameters are required.
+After the ant build, you'll find a cara.sample.jar file in the output directory.
+A cara.sample.zip file will also be created. the zip files includes all supporting libraries.
+
+- Your own project :
+Copy the sample directory to a folder named according to you project name.
+In the src directory, create your code. You can have a look to src/cara/sample.clj for 
+inspiration about creating your main class.
+In the build.xml file, change the property "targetclass" to the genclass'ed namespace
+containing your -main function.
+from the project root, run ant with no parameters.
+
+Shortcomings :
+
+Though this does not impede the build process, the run-clojure.bat file is for window only.
+While not stricly necessary, the clojure-contrib.jar library is included.
