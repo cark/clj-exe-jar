@@ -12,7 +12,7 @@ It is my hope this will be a good starting point.
 Included functionalities :
 
 The sample project will produce an executable jar, as well as a zip file containing
-both the executable jar and the supporting libraries. The run-clojure.bat script is
+both the executable jar and the supporting libraries. The run-clojure script is
 a good way to start clojure with a simple class-path. To add more libraries, just 
 throw these in the lib directory.
 
@@ -33,5 +33,4 @@ from the project root, run ant with no parameters.
 
 Shortcomings :
 
-Though this does not impede the build process, the run-clojure.bat file is for window only.
 While not stricly necessary, the clojure-contrib.jar library is included.
