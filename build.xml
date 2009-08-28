@@ -1,0 +1,74 @@
+<project default="package">
+  <property name="targetclass" value="cara.sample"/>
+  <property name="builddir" location="build"/>
+  <property name="classesdir" value="${builddir}/classes"/>
+  <property name="outputdir" location="output"/>
+  <property name="srcdir" location="src"/>
+  <property name="libdir" location="lib"/>
+  <property name="targetlibdir" value="${outputdir}/lib"/>
+  <property name="jarname" value="${targetclass}.jar"/>
+  <property name="zipname" value="${targetclass}.zip"/>
+  <property name="targetjar" value="${outputdir}/${jarname}"/>
+  <property name="targetzip" value="${outputdir}/${zipname}"/>
+  <property environment="env"/>
+  <property name="src" location="src"/>
+
+  <target name="clean">
+    <delete dir="${outputdir}" />
+    <delete dir="${classesdir}" />
+  </target>
+
+  <target name="compile" depends="clean">
+    <mkdir dir="${builddir}" />
+    <mkdir dir="${classesdir}" />
+    <mkdir dir="${outputdir}" />
+    <path id="class.path">
+       <fileset dir="${libdir}">
+          <include name="**/*.jar" />
+       </fileset>
+    </path>
+    <java classname="clojure.lang.Compile">
+      <classpath>
+        <path location="${classesdir}"/>
+        <path location="${srcdir}"/>
+      </classpath>
+      <classpath refid="class.path" />
+      <sysproperty key="clojure.compile.path" value="${classesdir}"/>
+      <arg value="${targetclass}"/>
+    </java>
+  </target>
+
+  <target name="copyfiles" depends="compile">
+      <copy todir="${targetlibdir}">
+        <fileset dir="${libdir}" />
+      </copy>
+  </target>
+
+  <target name="jar" depends="copyfiles">
+      <property name="jar-all" location="${targetlibdir}" />
+      <fileset id="jars" dir="${jar-all}">
+        <include name="*.jar" />
+      </fileset>
+      <path id="cp">
+          <fileset refid="jars" />
+      </path>
+      <pathconvert property="classpath"
+                   refid="cp"
+                   pathsep=" "
+                   dirsep="/">
+        <map from="${jar-all}" to="lib" />
+      </pathconvert>
+      <jar jarfile="${targetjar}">
+          <fileset dir="${classesdir}" includes="**"/>
+          <manifest>
+              <attribute name="Class-Path" value="${classpath}"/>
+              <attribute name="Main-Class" value="${targetclass}"/>
+          </manifest>
+      </jar>
+  </target>
+
+  <target name="package" depends="jar">
+      <zip basedir="${outputdir}" zipfile="${targetzip}"/>
+  </target>
+
+</project>
